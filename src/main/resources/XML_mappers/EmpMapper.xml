@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ctbc.model.mapper.iii.EmpMapper">
+
+	<!-- <resultMap id="emp_resultMap" type="fuckEmpVO"> -->
+	<resultMap id="emp_resultMap" type="com.ctbc.model.EmpVO">
+		<id property="empNo" column="empno"/>
+		<result property="empName" column="ename"/>
+		<result property="empJob" column="job"/>
+		<result property="empHireDate" column="hiredate" typeHandler="_02_typeHandler.CustomTimeStampHandler"/>
+		<!-- <result property="deptNo" column="deptno"/> -->
+		<!-- <association property="deptVO" javaType="fuckDeptVO" foreignColumn="deptNo"> -->
+		<association property="deptVO" javaType="com.ctbc.model.DeptVO" foreignColumn="deptNo">
+			<id property="deptNo" column="deptno"/>
+			<result property="deptName" column="dname"/>
+			<result property="deptLoc" column="loc"/>
+		</association>
+	</resultMap>
+	
+	<!-- 1. <sql> 宣告重複片段 -->
+	<!-- 2. <sql> 要用的地方用 <include refid="xxx"/> 引用 -->
+	<sql id="selectItem_frag">
+		SELECT * FROM z40180_empTB 
+	</sql>
+	
+	<select id="getEmps" resultMap="emp_resultMap">
+		<include refid="selectItem_frag"/>
+		<where>
+			<if test="empHiredate != null">
+				AND hiredate = #{empHiredate}
+			</if>
+		</where>
+	</select>
+	
+	<select id="getEmpsWithDept" resultMap="emp_resultMap">
+		SELECT * FROM z40180_empTB as ee JOIN z40180_deptTB as dd
+		ON ee.deptno = dd.deptno
+		<choose>
+			<when test="empNOgg != null">
+				<where>
+					AND ee.empno = #{empNOgg}
+				</where>
+			</when>
+			<when test="empNamePart != null">
+			    <!--<bind name="pattern" value="empNamePart + '%'" />-->
+				<where>				
+				<!--AND ee.ename LIKE #{pattern}-->
+				    AND ee.ename LIKE  #{empNamePart} + '%'  
+				</where>
+			</when>
+			<when test="empHiredates != null">
+				<where>
+					AND ee.hiredate IN 
+					<foreach item="item" collection="empHiredates" open="(" separator="," close=")">
+						#{item}
+					</foreach>
+				</where>
+			</when>
+			<otherwise>
+				<!-- do-nothing -->
+			</otherwise>
+		</choose>
+	</select>
+	
+</mapper>  
+
+
+
+
+
+
+
+
+
+
+
+
