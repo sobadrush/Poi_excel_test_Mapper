@@ -11,8 +11,6 @@ import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import com.ctbc.model.EmpDAO_Mapper;
-
 
 public abstract class CustomizeExceler {
 
@@ -97,20 +95,20 @@ public abstract class CustomizeExceler {
 		System.out.println(" Excel 產製完成！");
 	}
 
-	protected void doExcel(String filePath, String[] sheetsNames, EmpDAO_Mapper dao, Class<?> voClazz) {
+	protected void doExcel(String filePath, String[] sheetsNames, Object dao, Class<?> voClazz) {
 		this.createPOI(sheetsNames);
 		this.customerExcel(dao, voClazz);
 		this.outputExcel(filePath);
 	}
 
-	protected void doExcel(String filePath, EmpDAO_Mapper dao, Class<?> voClazz) {
+	protected void doExcel(String filePath, Object dao, Class<?> voClazz) {
 		this.createPOI();
 		this.customerExcel(dao, voClazz);
 		this.outputExcel(filePath);
 	}
 
 	/* user自行實作產生Excel內容邏輯 */
-	protected abstract void customerExcel(EmpDAO_Mapper dao, Class<?> voClazz);
+	protected abstract void customerExcel(Object dao, Class<?> voClazz);
 
 	public XSSFWorkbook getWorkbook() {
 		return workbook;

@@ -14,8 +14,11 @@ import com.ctbc.model.EmpVO;
 public class TestExcelTemplate {
 
 	public static void main(String[] args) {
+		
+		System.setProperty("spring.profiles.active", "sqlite_env");
+		
 		ConfigurableApplicationContext context = new AnnotationConfigApplicationContext(RootConfig.class);
-		EmpDAO_Mapper dao = context.getBean("empDAO_Mapper", EmpDAO_Mapper.class);
+		EmpDAO_Mapper empDAO_Mapper = context.getBean("empDAO_Mapper", EmpDAO_Mapper.class);
 
 		//ExcelTemplate excelTemplate = new ExcelTemplate();
 		ExcelTemplate excelTemplate = context.getBean("excelTemplate", ExcelTemplate.class);
@@ -23,13 +26,16 @@ public class TestExcelTemplate {
 		excelTemplate.doCustomerExcel(new CustomizeExceler() {
 
 			@Override
-			protected void customerExcel(EmpDAO_Mapper dao, Class<?> clazz) {
+			protected void customerExcel(Object dao, Class<?> clazz) {
+				
+				EmpDAO_Mapper empDao = (EmpDAO_Mapper) dao;
+				
 				// TODO Auto-generated method stub
 				int rownum = 999;// 【從第幾列開始寫 vs L35】
 				int sheetNum = 0; // 【從第個Sheet開始寫】
 				int numberOfSheet = this.getWorkbook().getNumberOfSheets();// 【共有多少個Sheet】
 				List<String> getterMethods = ExcelUtil.getMethods(clazz);
-				List<EmpVO> alist = dao.getAll();
+				List<EmpVO> alist = empDao.getAll();
 
 				while (sheetNum < numberOfSheet) {
 					rownum = 5; // 【從第幾列開始寫】
@@ -46,7 +52,7 @@ public class TestExcelTemplate {
 					sheetNum++;
 				}
 			}
-		}, dao, EmpVO.class, "D:/參考資料/xxxGGG.xlsx", new String[] { "員工資料A", "員工資料B", "員工資料C" });
+		}, empDAO_Mapper, EmpVO.class, "D:/參考資料/xxxGGG.xlsx", new String[] { "員工資料A", "員工資料B", "員工資料C" });
 
 		context.close();
 	}

@@ -43,13 +43,16 @@ public class TestExcelTemplate {
 		excelTemplate.doCustomerExcel(new CustomizeExceler() {
 
 			@Override
-			protected void customerExcel(EmpDAO_Mapper dao, Class<?> clazz) {
+			protected void customerExcel(Object dao, Class<?> clazz) {
+				
+				EmpDAO_Mapper empDao = (EmpDAO_Mapper) dao;
+				
 				// TODO Auto-generated method stub
 				int rownum = 999;// 【從第幾列開始寫 vs L35】
 				int sheetNum = 0; // 【從第個Sheet開始寫】
 				int numberOfSheet = this.getWorkbook().getNumberOfSheets();// 【共有多少個Sheet】
 				List<String> getterMethods = ExcelUtil.getMethods(clazz);
-				List<EmpVO> alist = dao.getAll();
+				List<EmpVO> alist = empDao.getAll();
 
 				while (sheetNum < numberOfSheet) {
 					rownum = 5; // 【從第幾列開始寫】
