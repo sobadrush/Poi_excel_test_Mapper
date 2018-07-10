@@ -12,24 +12,39 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
+// java.io.File.mkdir()：只能创建一级目录，且父目录必须存在，否则无法成功创建一个目录。
+// java.io.File.mkdirs()：可以创建多级目录，父目录不一定存在。
 public class ExcelUtil {
 
-	public static boolean createFolderAndFile(String filePath) {
-		java.io.File file = new java.io.File(filePath);
-		if (file.exists() == false) {
-			file.getParentFile().mkdirs(); //這樣才不會把ggg.txt當成folder建立
-			try {
-				file.createNewFile();
-				System.out.println("檔案及資料夾建立完成!" + "( " + filePath + " )");
-				return true;
-			} catch (IOException e) {
-				System.out.println("檔案及資料夾建立失敗!" + "( " + filePath + " )");
-				return false;
+	public static boolean createFolderAndFile(String filePath, boolean isOverride/* 是否需要判斷檔案是否已存在 */) {
+
+		if (isOverride == true) {
+			// 覆蓋既有檔案
+			java.io.File file = new java.io.File(filePath);
+			if (file.exists() == false) {
+				file.getParentFile().mkdirs();
 			}
+			return true;
 		} else {
-			System.out.println("磁碟中已有此目錄及檔案!" + "( " + filePath + " )");
-			return false; //已有此檔案
+			// 不覆蓋既有檔案
+			java.io.File file = new java.io.File(filePath);
+			if (file.exists() == false) {
+				file.getParentFile().mkdirs(); //這樣才不會把ggg.txt當成folder建立
+				try {
+					file.createNewFile();
+					System.out.println("檔案及資料夾建立完成!" + "( " + filePath + " )");
+					return true;
+				} catch (IOException e) {
+					System.out.println("檔案及資料夾建立失敗!" + "( " + filePath + " )");
+					return false;
+				}
+			} else {
+				System.out.println("磁碟中已有此目錄及檔案!" + "( " + filePath + " )");
+				return false; //已有此檔案
+			}
+
 		}
+
 	}
 
 	/**

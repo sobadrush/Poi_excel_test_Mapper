@@ -39,7 +39,7 @@ public abstract class CustomizeExceler {
 		}
 	}
 
-	protected void outputExcel(String file_path) {
+	protected void outputExcel(String file_path, boolean isOverride) {
 
 		if ("".equals(file_path) || file_path == null ||
 				file_path.length() == 0 || file_path.equals("dafaultPath")) {
@@ -47,7 +47,7 @@ public abstract class CustomizeExceler {
 		}
 
 		// 建立目錄及目標檔案
-		boolean createResult = ExcelUtil.createFolderAndFile(file_path);
+		boolean createResult = ExcelUtil.createFolderAndFile(file_path, isOverride);
 		if (createResult == true) {
 			System.out.println("檔案建立成功！" + " ( " + file_path + " )");
 		} else if (createResult == false) {
@@ -71,14 +71,14 @@ public abstract class CustomizeExceler {
 		System.out.println(" >>> Excel 產製完成！" + " ( " + file_path + " )" );
 	}
 
-	protected void doExcel(String filePath, String[] sheetsNames, Class<?> voClazz) {
+	protected void doExcel(String filePath, String[] sheetsNames, Class<?> voClazz , boolean isOverride) {
 		this.createPOI(sheetsNames);//---給sheetsNames陣列
 		this.customerExcel(voClazz);
-		this.outputExcel(filePath);
+		this.outputExcel(filePath, isOverride);
 	}
 
-	protected void doExcel(String filePath, Class<?> voClazz) {
-		this.doExcel(filePath, null, voClazz);
+	protected void doExcel(String filePath, Class<?> voClazz , boolean isOverride) {
+		this.doExcel(filePath, null, voClazz, isOverride);
 	}
 
 	/**
@@ -184,3 +184,7 @@ public abstract class CustomizeExceler {
 //sheet.setColumnWidth(0, CHAR_SIZE * 10);
 //sheet.setColumnWidth(1, CHAR_SIZE * 10);
 //sheet.setColumnWidth(2, CHAR_SIZE * 50);
+
+// 填滿顏色
+//myCellStyle.setFillBackgroundColor(IndexedColors.CORAL.getIndex()); // 填滿顏色
+//myCellStyle.setFillPattern(CellStyle.ALIGN_FILL);// 填滿的方式

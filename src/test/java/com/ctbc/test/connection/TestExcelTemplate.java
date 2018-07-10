@@ -11,7 +11,9 @@ import java.util.List;
 
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
@@ -94,7 +96,7 @@ public class TestExcelTemplate {
 				}
 
 			}
-		}, EmpVO.class /* 接資料的VO */, "D:/EmpData.xlsx");
+		}, EmpVO.class /* 接資料的VO */, "D:/EmpData.xlsx", false /*是否覆蓋既有檔案*/);
 
 	}
 
@@ -117,6 +119,7 @@ public class TestExcelTemplate {
 				while (sheetNum < numberOfSheet) {
 					int rownum = 10; // 【從第幾列開始寫】
 
+					// 【第0個Sheet的 [標題列] 】
 					if (sheetNum == 0) {
 						int titleStartRow = rownum - 1;
 						//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -133,10 +136,14 @@ public class TestExcelTemplate {
 						myCellStyle.setAlignment(XSSFCellStyle.ALIGN_CENTER); // 水平置中
 						myCellStyle.setVerticalAlignment(XSSFCellStyle.VERTICAL_CENTER); // 垂直置中
 						myCellStyle.setFont(font); // 設定字體
+						
+						myCellStyle.setFillBackgroundColor(IndexedColors.CORAL.getIndex()); // 填滿顏色
+						myCellStyle.setFillPattern(CellStyle.ALIGN_FILL);// 填滿的方式
 						//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 						ExcelUtil.createTitleRow(this.getSheets()[sheetNum], new String[] { "員工編號", "到職日", "姓名", "職位" }, myCellStyle, titleStartRow);
-					}
+					} // 標題-END
 
+					// 內容-START
 					for (EmpVO empVO : empList) {
 						Row excelRow = this.getSheets()[sheetNum].createRow(rownum++);
 						int col = 0;
@@ -169,7 +176,7 @@ public class TestExcelTemplate {
 				}
 
 			}
-		}, EmpVO.class /* 接資料的VO */, "D:/EmpData_002.xlsx", new String[] { "員工清單" }/* excel下方的Sheet */);
+		}, EmpVO.class /* 接資料的VO */, "D:/excelSample/EmpData_002.xlsx", new String[] { "員工清單" }/* excel下方的Sheet */ , true/*是否覆蓋既有檔案*/);
 
 	}
 

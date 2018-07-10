@@ -25,8 +25,8 @@ public class ExcelTemplate {
 	 * @param voClazz
 	 * @param filePath
 	 */
-	public void doCustomerExcel(CustomizeExceler exceler, Class<?> voClazz, String filePath) {
-		exceler.doExcel(filePath, voClazz);
+	public void doCustomerExcel(CustomizeExceler exceler, Class<?> voClazz, String filePath , boolean isOverride) {
+		exceler.doExcel(filePath, voClazz, isOverride);
 	}
 
 	/**
@@ -36,10 +36,11 @@ public class ExcelTemplate {
 	 * @param dao
 	 * @param voClazz
 	 * @param filePath
+	 * @param isOverride : 是否要覆蓋既有檔案
 	 * @param sheetsnames
 	 */
-	public void doCustomerExcel(CustomizeExceler exceler, Class<?> voClazz, String filePath, String[] sheetsnames) {
-		exceler.doExcel(filePath, sheetsnames, voClazz);
+	public void doCustomerExcel(CustomizeExceler exceler, Class<?> voClazz, String filePath, String[] sheetsnames , boolean isOverride) {
+		exceler.doExcel(filePath, sheetsnames, voClazz, isOverride);
 	}
 
 	/**

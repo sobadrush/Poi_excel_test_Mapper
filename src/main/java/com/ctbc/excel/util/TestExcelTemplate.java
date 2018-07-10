@@ -67,7 +67,7 @@ public class TestExcelTemplate {
 				}
 
 			}
-		}, EmpVO.class /* 接資料的VO */, "D:/EmpData.xlsx");
+		}, EmpVO.class /* 接資料的VO */, "D:/EmpData.xlsx", false /*是否覆蓋既有檔案*/);
 
 //		// 建立實體xlsx檔 (自訂sheets)
 //		excelTemplate.doCustomerExcel(new CustomizeExceler() {
