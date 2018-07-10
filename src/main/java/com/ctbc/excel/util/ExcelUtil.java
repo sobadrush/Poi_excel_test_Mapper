@@ -160,9 +160,9 @@ public class ExcelUtil {
 	 * 
 	 * @return title列的下一列數 int
 	 */
-	public static int createTitleRow(Sheet excelSheet, String[] titles, CellStyle cellStyle, int titleRowNum) {
+	public static int createTitleRow(Sheet excelSheet, String[] titles, CellStyle cellStyle, int titleRowNum , int titleColNum) {
 		Row titleRow = excelSheet.createRow(titleRowNum);
-		int titleCol = 0;
+		int titleCol = titleColNum;
 		for (String title : titles) {
 			Cell titleCell = titleRow.createCell(titleCol++);
 			titleCell.setCellStyle(cellStyle); // 設置儲存格樣式

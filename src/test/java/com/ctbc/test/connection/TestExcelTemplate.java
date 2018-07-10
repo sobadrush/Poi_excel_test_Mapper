@@ -118,7 +118,8 @@ public class TestExcelTemplate {
 
 				while (sheetNum < numberOfSheet) {
 					int rownum = 10; // 【從第幾列開始寫】
-
+					int colnum_start = 3;
+					
 					// 【第0個Sheet的 [標題列] 】
 					if (sheetNum == 0) {
 						int titleStartRow = rownum - 1;
@@ -140,13 +141,13 @@ public class TestExcelTemplate {
 						myCellStyle.setFillBackgroundColor(IndexedColors.CORAL.getIndex()); // 填滿顏色
 						myCellStyle.setFillPattern(CellStyle.ALIGN_FILL);// 填滿的方式
 						//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-						ExcelUtil.createTitleRow(this.getSheets()[sheetNum], new String[] { "員工編號", "到職日", "姓名", "職位" }, myCellStyle, titleStartRow);
+						ExcelUtil.createTitleRow(this.getSheets()[sheetNum], new String[] { "員工編號", "到職日", "姓名", "職位" }, myCellStyle, titleStartRow, colnum_start);
 					} // 標題-END
 
 					// 內容-START
 					for (EmpVO empVO : empList) {
 						Row excelRow = this.getSheets()[sheetNum].createRow(rownum++);
-						int col = 0;
+						int col = colnum_start;
 						for (String methodName : getterMethods) {
 							Cell excelCell = excelRow.createCell(col++);
 							//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -166,8 +167,10 @@ public class TestExcelTemplate {
 							excelCell.setCellStyle(myCellStyle); // 設置單元格样式
 							//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+							// 【直接反射VO中的getter】
 							String getterResult = ExcelUtil.invokeGetter(empVO, methodName);// 調用VO的Getter方法
 							excelCell.setCellValue(getterResult);
+							
 							this.getSheets()[sheetNum].autoSizeColumn(col - 1);// 設定每個column自動寬度
 						}
 					}
@@ -176,7 +179,7 @@ public class TestExcelTemplate {
 				}
 
 			}
-		}, EmpVO.class /* 接資料的VO */, "D:/excelSample/EmpData_002.xlsx", new String[] { "員工清單" }/* excel下方的Sheet */ , true/*是否覆蓋既有檔案*/);
+		}, EmpVO.class /* 接資料的VO */, "D:/excelSample/EmpData_002.xlsx", new String[] { "員工清單001", "員工清單002" }/* excel下方的Sheet */ , true/*是否覆蓋既有檔案*/);
 
 	}
 
