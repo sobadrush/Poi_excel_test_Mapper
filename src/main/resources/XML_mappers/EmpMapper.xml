@@ -63,6 +63,13 @@
 		</choose>
 	</select>
 	
+	<!-- join 回 List<Map> -->
+	<select id="getEmpDeptDataMapList" resultType="java.util.Map">
+		SELECT * FROM Z40180_EMPTB AS ee
+		JOIN Z40180_DEPTTB AS dd 
+		ON ee.deptno = dd.deptno
+	</select>
+	
 </mapper>  
 
 
