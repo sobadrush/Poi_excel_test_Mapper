@@ -94,7 +94,7 @@ public abstract class CustomizeExceler {
 	 * @param dao
 	 * @param voClazz
 	 * 
-	 *            取得POI workbook 的 inputStream 供下載使用
+	 * 取得POI workbook 的 inputStream 供下載使用
 	 */
 	protected InputStream doExcelGetInputStream(String[] sheetsNames, Class<?> voClazz) {
 		
@@ -123,7 +123,11 @@ public abstract class CustomizeExceler {
 				e.printStackTrace();
 			}
 		}
-		return new ByteArrayInputStream(bytes);
+		
+		InputStream is = new ByteArrayInputStream(bytes);
+		System.out.println(" === 產生Excel的InputStream完成！ === ");
+		
+		return is;
 	}
 
 	/**
