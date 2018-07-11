@@ -113,7 +113,7 @@ public class ExcelUtil {
 	public static String invokeGetter(Object valueObject, String methodName) {
 		String getterResultString = null;
 		try {
-			getterResultString = valueObject.getClass().getMethod(methodName).invoke(valueObject).toString();
+			getterResultString = valueObject.getClass().getMethod(methodName).invoke(valueObject) + "";
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
 		}
